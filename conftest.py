@@ -166,11 +166,9 @@ import pytest
 from playwright.sync_api import sync_playwright
 
 @pytest.fixture(scope="session")
-def api_request_context():
-    with sync_playwright() as p:
-        # 設定 Base URL 或 Headers (如：Auth Token)
-        request_context = p.request.new_context(
-            base_url="https://zh.wikipedia.org"
-        )
-        yield request_context
-        request_context.dispose()
+def api_request_context(playwright): 
+    request_context = playwright.request.new_context(
+        base_url="https://zh.wikipedia.org"
+    )
+    yield request_context
+    request_context.dispose()
